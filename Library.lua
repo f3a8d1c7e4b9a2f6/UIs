@@ -917,29 +917,6 @@ local FetchIcons, Icons = pcall(function()
     )()
 end)
 function Library:GetIcon(IconName: string)
-    --// Support raw Roblox asset IDs (number, "123456", or "rbxassetid://123456")
-    local function AssetIcon(Url)
-        return {
-            Url = Url,
-            ImageRectOffset = Vector2.zero,
-            ImageRectSize = Vector2.zero,
-        }
-    end
-
-    if typeof(IconName) == "number" then
-        return AssetIcon(string.format("rbxassetid://%d", IconName))
-    end
-
-    if typeof(IconName) == "string" then
-        if IconName:match("^rbxassetid://%d+$") or IconName:match("^rbxasset://") then
-            return AssetIcon(IconName)
-        end
-        local NumericId = IconName:match("^%s*(%d+)%s*$")
-        if NumericId then
-            return AssetIcon("rbxassetid://" .. NumericId)
-        end
-    end
-
     if not FetchIcons then
         return
     end
@@ -7639,7 +7616,15 @@ end
         local WarningTitle
         local WarningText
     
-        Icon = Library:GetIcon(Icon)
+        --// Accept a raw Roblox asset ID (number / "12345" / "rbxassetid://12345"),
+        --// otherwise resolve the name through the Lucide icon set.
+        if tonumber(Icon) then
+            Icon = { Url = "rbxassetid://" .. Icon, ImageRectOffset = Vector2.zero, ImageRectSize = Vector2.zero }
+        elseif typeof(Icon) == "string" and Icon:match("^rbxasset") then
+            Icon = { Url = Icon, ImageRectOffset = Vector2.zero, ImageRectSize = Vector2.zero }
+        else
+            Icon = Library:GetIcon(Icon)
+        end
         do
             TabButton = New("TextButton", {
                 BackgroundColor3 = "MainColor",
