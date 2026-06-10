@@ -7037,9 +7037,11 @@ end
         Library.Registry[FooterLabel] = {
             TextColor3 = "FontColor",
             Text = function()
+                local footerText = WindowInfo.Footer or getgenv().IntScriptName or ""
                 return string.format(
-                    "<font color=\"#%s\">Intellectual</font> | " .. getgenv().IntScriptName,
-                    Library.Scheme.AccentColor:ToHex()
+                    "<font color=\"#%s\">%s</font>",
+                    Library.Scheme.AccentColor:ToHex(),
+                    tostring(footerText)
                 )
             end
         }
