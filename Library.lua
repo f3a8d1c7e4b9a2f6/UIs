@@ -220,6 +220,7 @@ local Templates = {
     Window = {
         Title = "No Title",
         Footer = "No Footer",
+        FooterRichText = false,
         Position = UDim2.fromOffset(6, 6),
         Size = UDim2.fromOffset(720, 600), ---720, 600
         IconSize = UDim2.fromOffset(30, 30),
@@ -7030,7 +7031,7 @@ end
             Text = WindowInfo.Footer,
             TextSize = 14,
             TextTransparency = 0.1,
-            RichText = true,
+            RichText = WindowInfo.FooterRichText == true,
             ZIndex = BottomBar.ZIndex + 1,
             Parent = BottomBar,
         })
@@ -7038,6 +7039,9 @@ end
             TextColor3 = "FontColor",
             Text = function()
                 local footerText = WindowInfo.Footer or getgenv().IntScriptName or ""
+                if WindowInfo.FooterRichText == true then
+                    return tostring(footerText)
+                end
                 return string.format(
                     "<font color=\"#%s\">%s</font>",
                     Library.Scheme.AccentColor:ToHex(),
