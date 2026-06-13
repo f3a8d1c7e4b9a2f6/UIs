@@ -6794,15 +6794,18 @@ end
 
         local maxTextSize = 20
         local minTextSize = 12
+        local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
+        local textSize = maxTextSize
         local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
         local PrefixText = "Zal"
         local SuffixText = "Store"
-        local textSize = maxTextSize
-
-        -- Initial calculation using maxTextSize (safe default for short text)
+        
+        while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, textSize, maxWidth) > maxWidth and textSize > minTextSize do
+            textSize = textSize - 1
+        end
+        
         local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
         local SuffixWidth = Library:GetTextBounds(SuffixText, TitleFont, textSize)
-
         local TitleFrame = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth + SuffixWidth, 1, 0),
@@ -6815,7 +6818,7 @@ end
             Parent = TitleFrame,
         })
 
-        local PrefixLabel = New("TextLabel", {
+        New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth, 1, 0),
             FontFace = TitleFont,
@@ -6831,7 +6834,7 @@ end
             Size = UDim2.new(0, SuffixWidth, 1, 0),
             Parent = TitleFrame,
         })
-        local SuffixLabel = New("TextLabel", {
+        New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 1, 0),
             FontFace = TitleFont,
@@ -6849,23 +6852,6 @@ end
             Size = UDim2.new(1, -2, 0, 2),
             Parent = SuffixHolder,
         })
-
-        -- Recalculate title size after UI renders so AbsoluteSize is valid
-        task.defer(function()
-            local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
-            if maxWidth <= 0 then return end
-            local newSize = maxTextSize
-            while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, newSize, maxWidth) > maxWidth and newSize > minTextSize do
-                newSize = newSize - 1
-            end
-            local newPrefixW = Library:GetTextBounds(PrefixText, TitleFont, newSize)
-            local newSuffixW = Library:GetTextBounds(SuffixText, TitleFont, newSize)
-            TitleFrame.Size = UDim2.new(0, newPrefixW + newSuffixW, 1, 0)
-            PrefixLabel.Size = UDim2.new(0, newPrefixW, 1, 0)
-            PrefixLabel.TextSize = newSize
-            SuffixHolder.Size = UDim2.new(0, newSuffixW, 1, 0)
-            SuffixLabel.TextSize = newSize
-        end)
 
         --// Search Box
         if getgenv().Usesearchbar == nil then
@@ -7051,9 +7037,6 @@ end
         Library.Registry[FooterLabel] = {
             TextColor3 = "FontColor",
             Text = function()
-                if WindowInfo.FooterRichText then
-                    return WindowInfo.Footer or getgenv().IntScriptName or ""
-                end
                 local footerText = WindowInfo.Footer or getgenv().IntScriptName or ""
                 return string.format(
                     "<font color=\"#%s\">%s</font>",
