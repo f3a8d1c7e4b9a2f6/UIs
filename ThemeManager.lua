@@ -82,6 +82,7 @@ local ThemeManager = {} do
         ["Midnight black and red"]  = { 15, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0b0b0b","AccentColor":"f60000","BackgroundColor":"080707","OutlineColor":"000000"}]]) },
         ["Yama cod theme"]  = { 15, httpService:JSONDecode([[{"FontColor":"000000","MainColor":"e2e2e2","AccentColor":"000000","BackgroundColor":"d4d4d4","OutlineColor":"000000"}]]) },
         ["Red ice"]  = { 15, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0e0e0e","AccentColor":"ffffff","BackgroundColor":"220000","OutlineColor":"000000"}]]) },
+        ["ZalStore"]    = { 16, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"1555e6","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
     }
 
     function ThemeManager:SetLibrary(library)
