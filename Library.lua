@@ -6796,7 +6796,7 @@ end
         local minTextSize = 12
         local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
         local textSize = maxTextSize
-        local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
+        local TitleFont = Font.fromEnum(Enum.Font.Gotham)
         local PrefixText = "Zal"
         local SuffixText = "Store"
         
