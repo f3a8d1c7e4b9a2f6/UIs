@@ -64,13 +64,12 @@ local ThemeManager = {} do
         }
     }
     ThemeManager.BuiltInThemes = {
-        ["Default"] 		= { 1, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"7d55ff","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
-        ["GameSense"]       = { 2, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"101010","AccentColor":"9CB819","BackgroundColor":"111111","OutlineColor":"000000"}]]) },
-        ["Comet.pub"]       = { 3, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0F0F0F","AccentColor":"5D589D","BackgroundColor":"0F0F0F","OutlineColor":"000000"}]]) },  
+        ["ZalStore"]    = { 1, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"1555e6","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
+        ["Default"] 		= { 2, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"7d55ff","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
+        ["GameSense"]       = { 3, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"101010","AccentColor":"9CB819","BackgroundColor":"111111","OutlineColor":"000000"}]]) },
+        ["Comet.pub"]       = { 4, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0F0F0F","AccentColor":"5D589D","BackgroundColor":"0F0F0F","OutlineColor":"000000"}]]) },  
         ["Tokyohook.cc"]    = { 4, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191925","AccentColor":"6759b3","BackgroundColor":"16161f","OutlineColor":"000000"}]]) },
         ["White and black"]  = { 5, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"060606","AccentColor":"FFFFFF","BackgroundColor":"09090a","OutlineColor":"000000"}]]) },
-        ["Intellectual"]  = { 6, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"060606","AccentColor":"0000ff","BackgroundColor":"09090a","OutlineColor":"000000"}]]) },
-        ["Intellectual 2"]  = { 6, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0b0a0e","AccentColor":"0000ff","BackgroundColor":"0e0e14","OutlineColor":"000000"}]]) },
         ["Red and black"]  = { 7, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"060606","AccentColor":"ff0000","BackgroundColor":"09090a","OutlineColor":"000000"}]]) },
         ["Green and black"]  = { 8, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"060606","AccentColor":"00ff00","BackgroundColor":"09090a","OutlineColor":"000000"}]]) },                                
         ["Pink and black"]  = { 9, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0f0f0f","AccentColor":"ff0082","BackgroundColor":"121212","OutlineColor":"000000"}]]) },
@@ -82,7 +81,6 @@ local ThemeManager = {} do
         ["Midnight black and red"]  = { 15, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0b0b0b","AccentColor":"f60000","BackgroundColor":"080707","OutlineColor":"000000"}]]) },
         ["Yama cod theme"]  = { 15, httpService:JSONDecode([[{"FontColor":"000000","MainColor":"e2e2e2","AccentColor":"000000","BackgroundColor":"d4d4d4","OutlineColor":"000000"}]]) },
         ["Red ice"]  = { 15, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0e0e0e","AccentColor":"ffffff","BackgroundColor":"220000","OutlineColor":"000000"}]]) },
-        ["ZalStore"]    = { 16, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"1555e6","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
     }
 
     function ThemeManager:SetLibrary(library)
@@ -873,7 +871,7 @@ local ThemeManager = {} do
     end
 
     function ThemeManager:LoadDefault()
-        local theme = "Intellectual 2"
+        local theme = "Default"
         local content = isfile(self.Folder .. "/themes/default.txt") and readfile(self.Folder .. "/themes/default.txt")
 
         local isDefault = true
