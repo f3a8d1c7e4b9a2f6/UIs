@@ -64,7 +64,7 @@ local ThemeManager = {} do
         }
     }
     ThemeManager.BuiltInThemes = {
-        ["ZalStore"]    = { 1, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"1555e6","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
+        ["ZalStore"]    = { 1, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"101010","AccentColor":"007dff","BackgroundColor":"111111","OutlineColor":"000000"}]]) },
         ["Default"] 		= { 2, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"7d55ff","BackgroundColor":"0f0f0f","OutlineColor":"000000"}]]) },
         ["GameSense"]       = { 3, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"101010","AccentColor":"9CB819","BackgroundColor":"111111","OutlineColor":"000000"}]]) },
         ["Comet.pub"]       = { 4, httpService:JSONDecode([[{"FontColor":"ffffff","MainColor":"0F0F0F","AccentColor":"5D589D","BackgroundColor":"0F0F0F","OutlineColor":"000000"}]]) },  
