@@ -7620,7 +7620,15 @@ end
         local WarningTitle
         local WarningText
     
-        Icon = Library:GetIcon(Icon)
+        --// Accept a raw Roblox asset ID (number / "12345" / "rbxassetid://12345"),
+        --// otherwise resolve the name through the Lucide icon set.
+        if tonumber(Icon) then
+            Icon = { Url = "rbxassetid://" .. Icon, ImageRectOffset = Vector2.zero, ImageRectSize = Vector2.zero }
+        elseif typeof(Icon) == "string" and Icon:match("^rbxasset") then
+            Icon = { Url = Icon, ImageRectOffset = Vector2.zero, ImageRectSize = Vector2.zero }
+        else
+            Icon = Library:GetIcon(Icon)
+        end
         do
             TabButton = New("TextButton", {
                 BackgroundColor3 = "MainColor",
