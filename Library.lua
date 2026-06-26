@@ -232,7 +232,7 @@ local Templates = {
         Font = Enum.Font.Jura,
         ToggleKeybind = Enum.KeyCode.RightControl,
         MobileButtonsSide = "Left",
-        HideZalStoreIcon = true,
+        HideIntellectualIcon = true,
     },
     Toggle = {
         Text = "Toggle",
@@ -677,7 +677,7 @@ local function EnsureAcrylicModel()
     end
 
     local part = Instance.new("Part")
-    part.Name = "ZalStoreAcrylicBlurPart"
+    part.Name = "IntellectualAcrylicBlurPart"
     part.Color = Color3.new(0, 0, 0)
     part.Material = Enum.Material.Glass
     part.Size = Vector3.new(1, 1, 0)
@@ -781,7 +781,7 @@ local function EnableAcrylicDepthOfField()
 
     if not acrylicDepthOfField or not acrylicDepthOfField.Parent then
         acrylicDepthOfField = Instance.new("DepthOfFieldEffect")
-        acrylicDepthOfField.Name = "ZalStoreAcrylicDOF"
+        acrylicDepthOfField.Name = "IntellectualAcrylicDOF"
         acrylicDepthOfField.FarIntensity = 0
         acrylicDepthOfField.InFocusRadius = 0.1
         acrylicDepthOfField.NearIntensity = 1
@@ -6616,9 +6616,7 @@ function Library:CreateWindow(WindowInfo)
     Library.CornerRadius = WindowInfo.CornerRadius
     Library:SetNotifySide(WindowInfo.NotifySide)
     Library.ShowCustomCursor = WindowInfo.ShowCustomCursor
-    -- Back-compat: accept either HideZalStoreIcon (new) or HideIntellectualIcon (old)
-    Library.HideZalStoreIcon = (WindowInfo.HideZalStoreIcon == true) or (WindowInfo.HideIntellectualIcon == true)
-    Library.HideIntellectualIcon = Library.HideZalStoreIcon
+    Library.HideIntellectualIcon = WindowInfo.HideIntellectualIcon == true
     Library.Scheme.Font = WindowInfo.Font
     Library.ToggleKeybind = WindowInfo.ToggleKeybind
 
@@ -6798,9 +6796,9 @@ end
         local minTextSize = 12
         local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
         local textSize = maxTextSize
-        local TitleFont = Font.fromEnum(Enum.Font.Gotham)
-        local PrefixText = "Zal"
-        local SuffixText = "Store"
+        local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
+        local PrefixText = "INT"
+        local SuffixText = "ellectual"
         
         while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, textSize, maxWidth) > maxWidth and textSize > minTextSize do
             textSize = textSize - 1
@@ -6906,8 +6904,8 @@ end
             if not getgenv().Usesearchbar then
                 SearchBox.Text = ""
             end
-            if Library.RefreshZalStoreIconVisibility then
-                Library.RefreshZalStoreIconVisibility()
+            if Library.RefreshIntellectualIconVisibility then
+                Library.RefreshIntellectualIconVisibility()
             end
         end
 
@@ -7039,25 +7037,9 @@ end
         Library.Registry[FooterLabel] = {
             TextColor3 = "FontColor",
             Text = function()
-                local footerText = WindowInfo.Footer or getgenv().IntScriptName or ""
-                footerText = tostring(footerText)
-
-                --// Strip any embedded rich-text colors so the footer follows the theme
-                footerText = footerText:gsub("<font.->", ""):gsub("</font>", "")
-
-                local AccentHex = Library.Scheme.AccentColor:ToHex()
-                local FontHex = Library.Scheme.FontColor:ToHex()
-
-                --// Only the "Store" word uses the accent color; everything else uses the font color
-                footerText = footerText:gsub(
-                    "Store",
-                    string.format("<font color=\"#%s\">Store</font>", AccentHex)
-                )
-
                 return string.format(
-                    "<font color=\"#%s\">%s</font>",
-                    FontHex,
-                    footerText
+                    "<font color=\"#%s\">Intellectual</font> | " .. getgenv().IntScriptName,
+                    Library.Scheme.AccentColor:ToHex()
                 )
             end
         }
@@ -7278,7 +7260,7 @@ end
         })
 
         local function ShouldUseCompactHeader()
-            return Library.HideZalStoreIcon and not getgenv().Usesearchbar
+            return Library.HideIntellectualIcon and not getgenv().Usesearchbar
         end
 
         local function RefreshSidebarShellPosition()
@@ -7300,7 +7282,7 @@ end
             end
         end
 
-        local function RefreshZalStoreIconVisibility()
+        local function RefreshIntellectualIconVisibility()
             local showIcon = not Library.HideIntellectualIcon
             local compactHeader = ShouldUseCompactHeader()
             local showTopHeader = showIcon or getgenv().Usesearchbar
@@ -7360,7 +7342,7 @@ end
                 if TabsSidebarDivider then
                     TabsSidebarDivider.Visible = true
                 end
-                RefreshZalStoreIconVisibility()
+                RefreshIntellectualIconVisibility()
                 RefreshSidebarShellPosition()
                 Tabs.Parent = TabsSidebarPanel
                 Tabs.Position = UDim2.fromOffset(0, 0)
@@ -7413,7 +7395,7 @@ end
                 if TabsSidebarDivider then
                     TabsSidebarDivider.Visible = false
                 end
-                RefreshZalStoreIconVisibility()
+                RefreshIntellectualIconVisibility()
                 Tabs.Parent = TabsHeader
             local compactHeader = ShouldUseCompactHeader()
             Tabs.ScrollingDirection = Enum.ScrollingDirection.X
@@ -7493,12 +7475,10 @@ end
         end
 
         Library.RefreshWindowTabsLayout = QueueRefreshTabsNavigation
-        Library.RefreshZalStoreIconVisibility = function()
-            RefreshZalStoreIconVisibility()
+        Library.RefreshIntellectualIconVisibility = function()
+            RefreshIntellectualIconVisibility()
             QueueRefreshTabsNavigation()
         end
-        -- Back-compat alias (old name)
-        Library.RefreshIntellectualIconVisibility = Library.RefreshZalStoreIconVisibility
 
         TabsListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(QueueRefreshTabsNavigation)
         Tabs:GetPropertyChangedSignal("AbsoluteSize"):Connect(QueueRefreshTabsNavigation)
