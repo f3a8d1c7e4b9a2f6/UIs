@@ -6786,67 +6786,69 @@ end
             Parent = TitleHolder,
         })
 
+        --// ZalStore Brand (rewrite)
         if WindowInfo.Icon then
             New("ImageLabel", {
+                Name = "BrandIcon",
+                BackgroundTransparency = 1,
                 Image = tonumber(WindowInfo.Icon) and "rbxassetid://" .. WindowInfo.Icon or WindowInfo.Icon,
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
             })
         end
 
-        local maxTextSize = 22
-        local minTextSize = 18
-        local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
-        local textSize = maxTextSize
-        local TitleFont = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold)
-        local PrefixText = "Zal"
-        local SuffixText = "Store"
-        
-        while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, textSize, maxWidth) > maxWidth and textSize > minTextSize do
-            textSize = textSize - 1
-        end
-        
-        local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
-        local SuffixWidth = Library:GetTextBounds(SuffixText, TitleFont, textSize)
-        local TitleFrame = New("Frame", {
+        local BrandFont = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold)
+        local BrandSize = 22
+        local BrandPrefix = "Zal"
+        local BrandSuffix = "Store"
+
+        local PrefixWidth = Library:GetTextBounds(BrandPrefix, BrandFont, BrandSize)
+        local SuffixWidth = Library:GetTextBounds(BrandSuffix, BrandFont, BrandSize)
+
+        local BrandFrame = New("Frame", {
+            Name = "BrandFrame",
             BackgroundTransparency = 1,
-            Size = UDim2.new(0, PrefixWidth + SuffixWidth, 1, 0),
+            Size = UDim2.new(0, PrefixWidth + SuffixWidth + 2, 1, 0),
             Parent = TitleHolder,
         })
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
-            HorizontalAlignment = Enum.HorizontalAlignment.Center,
+            HorizontalAlignment = Enum.HorizontalAlignment.Left,
             VerticalAlignment = Enum.VerticalAlignment.Center,
-            Parent = TitleFrame,
+            Parent = BrandFrame,
         })
 
         New("TextLabel", {
+            Name = "BrandPrefix",
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth, 1, 0),
-            FontFace = TitleFont,
-            Text = PrefixText,
-            TextSize = textSize,
+            FontFace = BrandFont,
+            Text = BrandPrefix,
+            TextSize = BrandSize,
             TextColor3 = "AccentColor",
             TextXAlignment = Enum.TextXAlignment.Right,
-            Parent = TitleFrame,
+            Parent = BrandFrame,
         })
 
         local SuffixHolder = New("Frame", {
+            Name = "BrandSuffixHolder",
             BackgroundTransparency = 1,
             Size = UDim2.new(0, SuffixWidth, 1, 0),
-            Parent = TitleFrame,
+            Parent = BrandFrame,
         })
         New("TextLabel", {
+            Name = "BrandSuffix",
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 1, 0),
-            FontFace = TitleFont,
-            Text = SuffixText,
-            TextSize = textSize,
+            FontFace = BrandFont,
+            Text = BrandSuffix,
+            TextSize = BrandSize,
             TextColor3 = Color3.fromRGB(255, 255, 255),
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = SuffixHolder,
         })
         New("Frame", {
+            Name = "BrandUnderline",
             AnchorPoint = Vector2.new(0.5, 1),
             BackgroundColor3 = "AccentColor",
             BorderSizePixel = 0,
