@@ -6786,69 +6786,67 @@ end
             Parent = TitleHolder,
         })
 
-        --// ZalStore Brand (rewrite)
         if WindowInfo.Icon then
             New("ImageLabel", {
-                Name = "BrandIcon",
-                BackgroundTransparency = 1,
                 Image = tonumber(WindowInfo.Icon) and "rbxassetid://" .. WindowInfo.Icon or WindowInfo.Icon,
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
             })
         end
 
-        local BrandFont = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Heavy)
-        local BrandSize = 28
-        local BrandPrefix = "Zal"
-        local BrandSuffix = "Store"
-
-        local PrefixWidth = Library:GetTextBounds(BrandPrefix, BrandFont, BrandSize)
-        local SuffixWidth = Library:GetTextBounds(BrandSuffix, BrandFont, BrandSize)
-
-        local BrandFrame = New("Frame", {
-            Name = "BrandFrame",
+        local maxTextSize = 20
+        local minTextSize = 12
+        local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
+        local textSize = maxTextSize
+        local TitleFont = Font.fromEnum(Enum.Font.Gotham)
+        local PrefixText = "Zal"
+        local SuffixText = "Store"
+        
+        while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, textSize, maxWidth) > maxWidth and textSize > minTextSize do
+            textSize = textSize - 1
+        end
+        
+        local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
+        local SuffixWidth = Library:GetTextBounds(SuffixText, TitleFont, textSize)
+        local TitleFrame = New("Frame", {
             BackgroundTransparency = 1,
-            Size = UDim2.new(0, PrefixWidth + SuffixWidth + 2, 1, 0),
+            Size = UDim2.new(0, PrefixWidth + SuffixWidth, 1, 0),
             Parent = TitleHolder,
         })
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
-            HorizontalAlignment = Enum.HorizontalAlignment.Left,
+            HorizontalAlignment = Enum.HorizontalAlignment.Center,
             VerticalAlignment = Enum.VerticalAlignment.Center,
-            Parent = BrandFrame,
+            Parent = TitleFrame,
         })
 
         New("TextLabel", {
-            Name = "BrandPrefix",
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth, 1, 0),
-            FontFace = BrandFont,
-            Text = BrandPrefix,
-            TextSize = BrandSize,
+            FontFace = TitleFont,
+            Text = PrefixText,
+            TextSize = textSize,
             TextColor3 = "AccentColor",
             TextXAlignment = Enum.TextXAlignment.Right,
-            Parent = BrandFrame,
+            Parent = TitleFrame,
         })
 
         local SuffixHolder = New("Frame", {
-            Name = "BrandSuffixHolder",
             BackgroundTransparency = 1,
             Size = UDim2.new(0, SuffixWidth, 1, 0),
-            Parent = BrandFrame,
+            Parent = TitleFrame,
         })
         New("TextLabel", {
-            Name = "BrandSuffix",
             BackgroundTransparency = 1,
             Size = UDim2.new(1, 0, 1, 0),
-            FontFace = BrandFont,
-            Text = BrandSuffix,
-            TextSize = BrandSize,
+            FontFace = TitleFont,
+            Text = SuffixText,
+            TextSize = textSize,
             TextColor3 = Color3.fromRGB(255, 255, 255),
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = SuffixHolder,
         })
         New("Frame", {
-            Name = "BrandUnderline",
             AnchorPoint = Vector2.new(0.5, 1),
             BackgroundColor3 = "AccentColor",
             BorderSizePixel = 0,
@@ -7303,7 +7301,7 @@ end
         end
 
         local function RefreshZalStoreIconVisibility()
-            local showIcon = not Library.HideZalStoreIcon
+            local showIcon = not Library.HideIntellectualIcon
             local compactHeader = ShouldUseCompactHeader()
             local showTopHeader = showIcon or getgenv().Usesearchbar
 
