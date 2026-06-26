@@ -6794,11 +6794,11 @@ end
             })
         end
 
-        local maxTextSize = 20
-        local minTextSize = 12
+        local maxTextSize = 22
+        local minTextSize = 18
         local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
         local textSize = maxTextSize
-        local TitleFont = Font.fromEnum(Enum.Font.Gotham)
+        local TitleFont = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold)
         local PrefixText = "Zal"
         local SuffixText = "Store"
         
@@ -7301,7 +7301,7 @@ end
         end
 
         local function RefreshZalStoreIconVisibility()
-            local showIcon = not Library.HideIntellectualIcon
+            local showIcon = not Library.HideZalStoreIcon
             local compactHeader = ShouldUseCompactHeader()
             local showTopHeader = showIcon or getgenv().Usesearchbar
 
