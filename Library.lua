@@ -6764,7 +6764,7 @@ end
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true)
 
-        --// Title
+        --// Title - Custom Logo
         TitleHolder = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.fromScale(TabSectionScale, 1),
@@ -6790,20 +6790,19 @@ end
             })
         end
 
-        local maxTextSize = 20
-        local minTextSize = 12
-        local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
-        local textSize = maxTextSize
+        --// SETTING LOGO - UBAH DISINI \\--
+        local PrefixText = "Zal"      -- Ganti sesuai keinginan
+        local SuffixText = "Store"    -- Ganti sesuai keinginan
         local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
-        local PrefixText = "Znt"
-        local SuffixText = "ellectual"
         
-        while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, textSize, maxWidth) > maxWidth and textSize > minTextSize do
-            textSize = textSize - 1
-        end
+        -- Ukuran font (atur manual)
+        local textSize = 20  -- Bisa diubah ke 22, 24, dll
         
+        -- Hitung lebar teks
         local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
         local SuffixWidth = Library:GetTextBounds(SuffixText, TitleFont, textSize)
+        
+        -- Buat frame utama
         local TitleFrame = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth + SuffixWidth, 1, 0),
@@ -6816,6 +6815,7 @@ end
             Parent = TitleFrame,
         })
 
+        -- Prefix (warna accent)
         New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth, 1, 0),
@@ -6827,6 +6827,7 @@ end
             Parent = TitleFrame,
         })
 
+        -- Suffix (warna putih + underline)
         local SuffixHolder = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, SuffixWidth, 1, 0),
