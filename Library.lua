@@ -232,7 +232,6 @@ local Templates = {
         Font = Enum.Font.Jura,
         ToggleKeybind = Enum.KeyCode.RightControl,
         MobileButtonsSide = "Left",
-        HideZalStoreIcon = true,
     },
     Toggle = {
         Text = "Toggle",
@@ -6616,9 +6615,6 @@ function Library:CreateWindow(WindowInfo)
     Library.CornerRadius = WindowInfo.CornerRadius
     Library:SetNotifySide(WindowInfo.NotifySide)
     Library.ShowCustomCursor = WindowInfo.ShowCustomCursor
-    -- Back-compat: accept either HideZalStoreIcon (new) or HideIntellectualIcon (old)
-    Library.HideZalStoreIcon = (WindowInfo.HideZalStoreIcon == true) or (WindowInfo.HideIntellectualIcon == true)
-    Library.HideIntellectualIcon = Library.HideZalStoreIcon
     Library.Scheme.Font = WindowInfo.Font
     Library.ToggleKeybind = WindowInfo.ToggleKeybind
 
@@ -6905,9 +6901,6 @@ end
 
             if not getgenv().Usesearchbar then
                 SearchBox.Text = ""
-            end
-            if Library.RefreshZalStoreIconVisibility then
-                Library.RefreshZalStoreIconVisibility()
             end
         end
 
@@ -7277,63 +7270,18 @@ end
             Parent = TabsSidebarPanel,
         })
 
-        local function ShouldUseCompactHeader()
-            return Library.HideZalStoreIcon and not getgenv().Usesearchbar
-        end
-
         local function RefreshSidebarShellPosition()
             if not TabsSidebarShell or not MainFrame then
                 return
             end
+
             local sidebarWidth = math.floor(190 * Library.DPIScale)
-            local compactHeader = ShouldUseCompactHeader()
             local mainSize = MainFrame.AbsoluteSize
             TabsSidebarShell.Position = UDim2.fromOffset(0, 0)
             TabsSidebarShell.Size = UDim2.fromOffset(sidebarWidth, mainSize.Y)
             if TabsSidebarDivider then
-                TabsSidebarDivider.Position = compactHeader
-                    and UDim2.fromOffset(sidebarWidth, 0)
-                    or UDim2.fromOffset(sidebarWidth, 48 * Library.DPIScale)
-                TabsSidebarDivider.Size = compactHeader
-                    and UDim2.new(0, 1, 1, -14 * Library.DPIScale)
-                    or UDim2.new(0, 1, 1, -68 * Library.DPIScale)
-            end
-        end
-
-        local function RefreshZalStoreIconVisibility()
-            local showIcon = not Library.HideIntellectualIcon
-            local compactHeader = ShouldUseCompactHeader()
-            local showTopHeader = showIcon or getgenv().Usesearchbar
-
-            if TopBar then
-                TopBar.Visible = true
-                TopBar.Size = compactHeader and UDim2.new(1, 0, 0, 8) or UDim2.new(1, 0, 0, 48)
-            end
-            if TopBarLine then
-                TopBarLine.Visible = not compactHeader
-            end
-            if TitleHolder then
-                TitleHolder.Visible = showIcon and not Library.UseSidebarTabs
-            end
-            if SearchBox then
-                SearchBox.AnchorPoint = showIcon and Vector2.new(0, 0.5) or Vector2.new(0.5, 0.5)
-                SearchBox.Position = showIcon and UDim2.new(TabSectionScale, 8, 0.5, 0) or UDim2.new(0.5, 0, 0.5, 0)
-            end
-            if TabsHeader and not Library.UseSidebarTabs then
-                TabsHeader.Position = compactHeader and UDim2.fromOffset(10, 8) or UDim2.fromOffset(10, 52)
-            end
-            if TabsSidebarHeader then
-                TabsSidebarHeader.Visible = showIcon
-            end
-            if TabsSidebarTitleFrame then
-                TabsSidebarTitleFrame.Visible = showIcon
-            end
-            if TabsSidebarHeaderLine then
-                TabsSidebarHeaderLine.Visible = showTopHeader
-            end
-            if TabsSidebarPanel then
-                TabsSidebarPanel.Position = showTopHeader and UDim2.fromOffset(0, 50) or UDim2.fromOffset(0, 0)
-                TabsSidebarPanel.Size = showTopHeader and UDim2.new(1, 0, 1, -50) or UDim2.fromScale(1, 1)
+                TabsSidebarDivider.Position = UDim2.fromOffset(sidebarWidth, 48 * Library.DPIScale)
+                TabsSidebarDivider.Size = UDim2.new(0, 1, 1, -68 * Library.DPIScale)
             end
         end
 
@@ -7360,7 +7308,6 @@ end
                 if TabsSidebarDivider then
                     TabsSidebarDivider.Visible = true
                 end
-                RefreshZalStoreIconVisibility()
                 RefreshSidebarShellPosition()
                 Tabs.Parent = TabsSidebarPanel
                 Tabs.Position = UDim2.fromOffset(0, 0)
@@ -7378,8 +7325,8 @@ end
                 if Container then
                     local sidebarWidth = math.floor(190 * Library.DPIScale)
                     local contentGap = math.floor(10 * Library.DPIScale)
-                    local contentTop = ShouldUseCompactHeader() and math.floor(8 * Library.DPIScale) or math.floor(58 * Library.DPIScale)
-                    local contentBottom = ShouldUseCompactHeader() and math.floor(22 * Library.DPIScale) or math.floor(72 * Library.DPIScale)
+                    local contentTop = math.floor(58 * Library.DPIScale)
+                    local contentBottom = math.floor(72 * Library.DPIScale)
                     Container.Position = UDim2.fromOffset(sidebarWidth + contentGap, contentTop)
                     Container.Size = UDim2.new(1, -(sidebarWidth + contentGap), 1, -contentBottom)
                     RefreshActiveTabAfterLayout()
@@ -7413,17 +7360,15 @@ end
                 if TabsSidebarDivider then
                     TabsSidebarDivider.Visible = false
                 end
-                RefreshZalStoreIconVisibility()
                 Tabs.Parent = TabsHeader
-            local compactHeader = ShouldUseCompactHeader()
             Tabs.ScrollingDirection = Enum.ScrollingDirection.X
             Tabs.AutomaticCanvasSize = Enum.AutomaticSize.X
             TabsListLayout.FillDirection = Enum.FillDirection.Horizontal
             TabsListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
             TabsListLayout.Padding = UDim.new(0, 10)
                 if Container then
-                    Container.Position = compactHeader and UDim2.fromOffset(0, 44) or UDim2.fromOffset(0, 88)
-                    Container.Size = compactHeader and UDim2.new(1, 0, 1, -58) or UDim2.new(1, 0, 1, -102)
+                    Container.Position = UDim2.fromOffset(0, 88)
+                    Container.Size = UDim2.new(1, 0, 1, -102)
                     RefreshActiveTabAfterLayout()
                 end
 
@@ -7493,12 +7438,6 @@ end
         end
 
         Library.RefreshWindowTabsLayout = QueueRefreshTabsNavigation
-        Library.RefreshZalStoreIconVisibility = function()
-            RefreshZalStoreIconVisibility()
-            QueueRefreshTabsNavigation()
-        end
-        -- Back-compat alias (old name)
-        Library.RefreshIntellectualIconVisibility = Library.RefreshZalStoreIconVisibility
 
         TabsListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(QueueRefreshTabsNavigation)
         Tabs:GetPropertyChangedSignal("AbsoluteSize"):Connect(QueueRefreshTabsNavigation)
