@@ -6764,7 +6764,17 @@ end
         })
         Library:MakeDraggable(MainFrame, TopBar, false, true)
 
-        --// Title - Custom Logo
+        --// ===== LOGO SETTINGS ===== \\--
+        local PrefixText = "Zal"      -- Ganti sesuai keinginan
+        local SuffixText = "Store"    -- Ganti sesuai keinginan
+        local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
+        local textSize = 20           -- Ukuran font (atur sendiri)
+        
+        -- Hitung lebar teks
+        local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
+        local SuffixWidth = Library:GetTextBounds(SuffixText, TitleFont, textSize)
+        
+        --// === TOPBAR LOGO === \\--
         TitleHolder = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.fromScale(TabSectionScale, 1),
@@ -6790,19 +6800,6 @@ end
             })
         end
 
-        --// SETTING LOGO - UBAH DISINI \\--
-        local PrefixText = "INT"      -- Ganti sesuai keinginan
-        local SuffixText = "ellectual"    -- Ganti sesuai keinginan
-        local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
-        
-        -- Ukuran font (atur manual)
-        local textSize = 20  -- Bisa diubah ke 22, 24, dll
-        
-        -- Hitung lebar teks
-        local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
-        local SuffixWidth = Library:GetTextBounds(SuffixText, TitleFont, textSize)
-        
-        -- Buat frame utama
         local TitleFrame = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, PrefixWidth + SuffixWidth, 1, 0),
@@ -6850,6 +6847,106 @@ end
             Position = UDim2.new(0.5, 0, 1, -8),
             Size = UDim2.new(1, -2, 0, 2),
             Parent = SuffixHolder,
+        })
+        
+        --// === SIDEBAR LOGO === \\--
+        TabsSidebarShell = New("Frame", {
+            BackgroundColor3 = function()
+                return Library:GetBetterColor(Library.Scheme.BackgroundColor, 1)
+            end,
+            BackgroundTransparency = 1,
+            Position = UDim2.fromOffset(0, 0),
+            Size = UDim2.fromOffset(190, 300),
+            Visible = false,
+            Parent = MainFrame,
+        })
+        TabsSidebarHeader = New("Frame", {
+            BackgroundTransparency = 1,
+            Position = UDim2.fromOffset(0, 0),
+            Size = UDim2.new(1, 0, 0, 48),
+            Parent = TabsSidebarShell,
+        })
+        New("UIPadding", {
+            PaddingLeft = UDim.new(0, 12),
+            Parent = TabsSidebarHeader,
+        })
+        TabsSidebarTitleFrame = New("Frame", {
+            BackgroundTransparency = 1,
+            Position = UDim2.fromOffset(0, 0),
+            Size = UDim2.new(1, -12, 1, 0),
+            Parent = TabsSidebarHeader,
+        })
+        New("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Left,
+            VerticalAlignment = Enum.VerticalAlignment.Center,
+            Parent = TabsSidebarTitleFrame,
+        })
+        TabsSidebarPrefixLabel = New("TextLabel", {
+            BackgroundTransparency = 1,
+            FontFace = TitleFont,
+            Text = PrefixText,
+            TextSize = textSize,
+            TextColor3 = "AccentColor",
+            Size = UDim2.new(0, PrefixWidth, 0, 22),
+            TextXAlignment = Enum.TextXAlignment.Right,
+            Parent = TabsSidebarTitleFrame,
+        })
+        TabsSidebarSuffixHolder = New("Frame", {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(0, SuffixWidth, 0, 22),
+            Parent = TabsSidebarTitleFrame,
+        })
+        TabsSidebarSuffixLabel = New("TextLabel", {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 1, 0),
+            FontFace = TitleFont,
+            Text = SuffixText,
+            TextSize = textSize,
+            TextColor3 = Color3.fromRGB(255, 255, 255),
+            TextXAlignment = Enum.TextXAlignment.Left,
+            Parent = TabsSidebarSuffixHolder,
+        })
+        TabsSidebarUnderline = New("Frame", {
+            AnchorPoint = Vector2.new(0.5, 1),
+            BackgroundColor3 = "AccentColor",
+            BorderSizePixel = 0,
+            Position = UDim2.new(0.5, 0, 1, 0),
+            Size = UDim2.new(1, -2, 0, 2),
+            Parent = TabsSidebarSuffixHolder,
+        })
+        TabsSidebarHeaderLine = Library:MakeLine(TabsSidebarShell, {
+            Position = UDim2.fromOffset(0, 48),
+            Size = UDim2.new(1, 0, 0, 1),
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, math.max(8, WindowInfo.CornerRadius - 4)),
+            Parent = TabsSidebarShell,
+        })
+        New("UIStroke", {
+            Color = Color3.fromRGB(0, 0, 0),
+            Thickness = 1,
+            Transparency = 1,
+            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+            Parent = TabsSidebarShell,
+        })
+        TabsSidebarDivider = Library:MakeLine(MainFrame, {
+            Position = UDim2.fromOffset(190, 48),
+            Size = UDim2.new(0, 1, 1, -68),
+        })
+        TabsSidebarPanel = New("Frame", {
+            BackgroundTransparency = 1,
+            Position = UDim2.fromOffset(0, 50),
+            Size = UDim2.new(1, 0, 1, -50),
+            Visible = true,
+            Parent = TabsSidebarShell,
+        })
+        New("UIPadding", {
+            PaddingBottom = UDim.new(0, 6),
+            PaddingLeft = UDim.new(0, 8),
+            PaddingRight = UDim.new(0, 8),
+            PaddingTop = UDim.new(0, 8),
+            Parent = TabsSidebarPanel,
         })
 
         --// Search Box
