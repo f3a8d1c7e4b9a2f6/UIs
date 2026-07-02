@@ -6791,8 +6791,8 @@ end
         end
 
         --// SETTING LOGO - UBAH DISINI \\--
-        local PrefixText = "Zal"      -- Ganti sesuai keinginan
-        local SuffixText = "Store"    -- Ganti sesuai keinginan
+        local PrefixText = "INT"      -- Ganti sesuai keinginan
+        local SuffixText = "ellectual"    -- Ganti sesuai keinginan
         local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
         
         -- Ukuran font (atur manual)
