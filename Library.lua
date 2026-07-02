@@ -6790,7 +6790,7 @@ end
             })
         end
 
-        local maxTextSize = 40
+        local maxTextSize = 20
         local minTextSize = 12
         local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
         local textSize = maxTextSize
