@@ -6790,16 +6790,16 @@ end
             })
         end
 
-        local maxTextSize = 24
-        local minTextSize = 16
-        local maxWidth = (TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12) * 1.2
+        local maxTextSize = 20
+        local minTextSize = 12
+        local maxWidth = TitleHolder.AbsoluteSize.X - (WindowInfo.Icon and WindowInfo.IconSize.X.Offset + 6 or 0) - 12
         local textSize = maxTextSize
         local TitleFont = Font.fromEnum(Enum.Font.GothamBold)
-        local PrefixText = "ZAL"
-        local SuffixText = "STORE"
+        local PrefixText = "Znt"
+        local SuffixText = "ellectual"
         
         while Library:GetTextBounds(PrefixText .. SuffixText, TitleFont, textSize, maxWidth) > maxWidth and textSize > minTextSize do
-        textSize = textSize - 1
+            textSize = textSize - 1
         end
         
         local PrefixWidth = Library:GetTextBounds(PrefixText, TitleFont, textSize)
